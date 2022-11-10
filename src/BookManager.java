@@ -18,29 +18,31 @@ public class BookManager {
         try {
             System.out.println("Enter name: ");
             String name = scanner.nextLine();
-            for (int i = 0; i < books.size(); i++) {
-                if (!books.get(i).getName().equals(name)) {
-                    System.out.println("Enter author: ");
-                    String author = scanner.nextLine();
-                    System.out.println("Enter category: ");
-                    String category = scanner.nextLine();
-                    System.out.println("Enter amount: ");
-                    int amount = Integer.parseInt(scanner.nextLine());
-                    System.out.println("Enter location: ");
-                    String location = scanner.nextLine();
-                    Book book = new Book(name, author, category, amount, location);
-                    if (books.size() > 0) {
-                        book.setId( books.get(books.size()-1).getId()+1);
+            if (checkName(name)){
+                for (int i = 0; i < books.size(); i++) {
+                    if (books.get(i).getName().equals(name)) {
+                        System.out.println("Enter amount: ");
+                        int newAmount = Integer.parseInt(scanner.nextLine());
+                        books.get(i).setAmount(books.get(i).getAmount() + newAmount);
+                        break;
                     }
-                    books.add(book);
-                } else {
-                    System.out.println("Enter amount: ");
-                    int newAmount = Integer.parseInt(scanner.nextLine());
-                    books.get(i).setAmount(books.get(i).getAmount() + newAmount);
                 }
-                System.out.println("Successful added book!");
-                break;
+            } else {
+                System.out.println("Enter author: ");
+                String author = scanner.nextLine();
+                System.out.println("Enter category: ");
+                String category = scanner.nextLine();
+                System.out.println("Enter amount: ");
+                int amount = Integer.parseInt(scanner.nextLine());
+                System.out.println("Enter location: ");
+                String location = scanner.nextLine();
+                Book book = new Book(name, author, category, amount, location);
+                if (books.size() > 0) {
+                    book.setId( books.get(books.size()-1).getId()+1);
+                }
+                books.add(book);
             }
+            System.out.println("Successful added book!");
             ioFile.writeFile(books, "src/File/book.txt");
         } catch (NumberFormatException | InputMismatchException e) {
             System.out.println(e.getMessage());
@@ -120,8 +122,6 @@ public class BookManager {
         for (Book book : books) {
             if (book.getCategory().equalsIgnoreCase(categorySearch)) {
                 System.out.println(book);
-            } else {
-                System.out.println("Don't have!");
             }
         }
     }
@@ -144,5 +144,14 @@ public class BookManager {
             }
         }
         return null;
+    }
+
+    private boolean checkName(String name) {
+        for (Book book : books) {
+            if (book.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 }

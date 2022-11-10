@@ -90,9 +90,9 @@ public class ManagerSystem {
         do {
             System.out.println("MENU LOAN SLIP");
             System.out.println("1. Add loan slip");
-            System.out.println("2. Delete loan slip by id");
+            System.out.println("2. Delete loan slip by code");
             System.out.println("3. Display all loan slip");
-            System.out.println("4. Display loan slip by id");
+            System.out.println("4. Display loan slip by code");
             System.out.println("0. Exit");
             System.out.println("Enter your choice: ");
             try {

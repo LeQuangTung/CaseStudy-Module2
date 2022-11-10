@@ -11,12 +11,9 @@ public class LoanSlipManager implements Serializable {
 
     public LoanSlipManager() {
         loanSlip = ioFile.readFile("src/File/loanSlips.txt");
-        listLoanBooks = ioFile.readFile("src/File/listLoanBook.txt");
     }
 
-    private ArrayList<ListLoanBook> listLoanBooks;
-
-    private ArrayList <ArrayList<ListLoanBook>> lists = new ArrayList<>();
+    private ArrayList <ArrayList<ListLoanBook>> listLoanBook = new ArrayList<>();
 
     IOFile ioFile = new IOFile();
 
@@ -24,7 +21,7 @@ public class LoanSlipManager implements Serializable {
 
     public void addSlip(ArrayList<Book> books, Scanner scanner) {
         try {
-            count = lists.size();
+            count = listLoanBook.size();
             System.out.println("Enter id of student: ");
             Long idStudent = Long.parseLong(scanner.nextLine());
             System.out.println("Enter name of student: ");
@@ -35,7 +32,7 @@ public class LoanSlipManager implements Serializable {
             System.out.println("The pay Date is: ");
             LocalDate payDate = loanDate.plusDays(5);
             System.out.println(payDate);
-            LoanSlip bookLoanSlip = new LoanSlip(idStudent, nameStudent, lists.get(count), loanDate, payDate);
+            LoanSlip bookLoanSlip = new LoanSlip(idStudent, nameStudent, listLoanBook.get(count), loanDate, payDate);
             if (loanSlip.size() > 0) {
                 bookLoanSlip.setCode( loanSlip.get(loanSlip.size() - 1).getCode() + 1);
             }
@@ -70,7 +67,8 @@ public class LoanSlipManager implements Serializable {
         System.out.println("Do not have loan slip");
         }
         for (LoanSlip loanSlip : loanSlip) {
-            System.out.printf("\n%-15s%-20s%-20s%s", "Student ID", "Student name", "Loan Date", "Pay Date");
+            System.out.println("Code: " + loanSlip.getCode());
+            System.out.printf("%-15s%-20s%-20s%s", "Student ID", "Student name", "Loan Date", "Pay Date");
             System.out.printf("\n%-15s%-20s%-20s%s", loanSlip.getIdStudent(), loanSlip.getStudentName(),
                     loanSlip.getLoanDate(), loanSlip.getPayDate() + "\n");
             System.out.println("List loan books: ");
@@ -116,8 +114,8 @@ public class LoanSlipManager implements Serializable {
                 BookManager.ioFile.writeFile(BookManager.books,"src/File/book.txt");
             }
         } while (book != null);
-        lists.add(listLoanBooks1);
-        ioFile.writeFile(lists, "src/File/lists.txt.txt");
+        listLoanBook.add(listLoanBooks1);
+        ioFile.writeFile(listLoanBook, "src/File/listLoanBook.txt");
     }
 
     private Book getBookByIndex(ArrayList<Book> books, Scanner scanner) {
